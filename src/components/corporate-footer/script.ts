@@ -19,13 +19,12 @@ Polymer({
       value: false
     }
   },
-  created: function() {
-    var items = [].slice.call(this.children).filter(function(item) {
+  attached: function() {
+    var items = [].slice.call(this.querySelectorAll('.dropdown-menu nav-item')).filter(function(item) {
       return item.nodeName == 'NAV-ITEM';
     });
-    this.properties.navItems.value = items.length;
-  },
-  attached: function() {
+
+    this.navItems = !!items.length;
     this.style.display = 'block';
   }
 });
