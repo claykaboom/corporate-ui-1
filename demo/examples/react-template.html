@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-GB" ng-app="CorporateUI">
+
+<head>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://d31jnweo1ynb8u.cloudfront.net/build/global/3.4.0-CF/js/corporate-ui.js"></script>
+</head>
+
+<body class="scania app ux-lib">
+
+  <c-corporate-header site-name="Demo page" site-url="/corporate-ui/">
+    <nav-item location="/corporate-ui/">UX Library</nav-item>
+  </c-corporate-header>
+
+  <c-main-content>
+
+    <c-main-navigation></c-main-navigation>
+
+    <section class="light">
+      <div class="container">
+        <article>
+        <h2>React Corporate UI Demo</h2>
+          <p>This is a demopage using React togheter with Corporate UI.</p>
+        </article>
+      </div>
+    </section>
+
+  </c-main-content>
+
+  <c-corporate-footer>
+    <c-social-media>
+      <nav-item icon="facebook" onclick=window.open("https://www.facebook.com/scaniagroup/")></nav-item>
+      <nav-item location="#" icon="twitter"></nav-item>
+      <nav-item location="#" icon="youtube"></nav-item>
+      <nav-item location="#" icon="linkedin"></nav-item>
+    </c-social-media>
+
+    <nav-item location="/corporate-ui-docs/master-branch/developer/support.html">Support</nav-item>
+    <nav-item location="mailto:corporate-ui@scania.com">Contact</nav-item>
+  </c-corporate-footer>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+
+    //const e = React.createElement;
+
+    // class mainNav extends React.Component{
+    //   constructor(props){
+    //     super();
+    //   }
+    //   render(){
+    //     return (
+    //       <primary-items>
+    //         <nav-item location="#/branding">products and services</nav-item>
+    //         <nav-item location="#/contact">experience scania</nav-item>
+    //       </primary-items>
+    //     );
+    //   }
+    // }
+
+    const mainNav = (
+        <primary-items>
+            <nav-item location="#/branding">products and services</nav-item>
+            <nav-item location="#/contact">experience scania</nav-item>
+          </primary-items>
+    );
+    const domMainNav = document.querySelector('c-main-navigation');
+    ReactDOM.render((mainNav),domMainNav);
+
+  </script>
+
+</body>
+
+</html>
