@@ -2,70 +2,61 @@
 <html lang="en-GB" ng-app="CorporateUI">
 
 <head>
-  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://d31jnweo1ynb8u.cloudfront.net/build/global/3.4.0-CF/js/corporate-ui.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="../../../js/corporate-ui.js"></script>
 </head>
 
 <body class="scania app ux-lib">
 
-  <c-corporate-header site-name="Demo page" site-url="/corporate-ui/">
-    <nav-item location="/corporate-ui/">UX Library</nav-item>
-  </c-corporate-header>
-
-  <c-main-content>
-
-    <c-main-navigation></c-main-navigation>
-
-    <section class="light">
-      <div class="container">
-        <article>
-        <h2>React Corporate UI Demo</h2>
-          <p>This is a demopage using React togheter with Corporate UI.</p>
-        </article>
-      </div>
-    </section>
-
-  </c-main-content>
-
-  <c-corporate-footer>
-    <c-social-media>
-      <nav-item icon="facebook" onclick=window.open("https://www.facebook.com/scaniagroup/")></nav-item>
-      <nav-item location="#" icon="twitter"></nav-item>
-      <nav-item location="#" icon="youtube"></nav-item>
-      <nav-item location="#" icon="linkedin"></nav-item>
-    </c-social-media>
-
-    <nav-item location="/corporate-ui-docs/master-branch/developer/support.html">Support</nav-item>
-    <nav-item location="mailto:corporate-ui@scania.com">Contact</nav-item>
-  </c-corporate-footer>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
+  const par = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In arcu cursus euismod quis. Facilisis mauris sit amet massa vitae. Et tortor consequat id porta nibh venenatis cras. Eu mi bibendum neque egestas congue. Et malesuada fames ac turpis egestas. Morbi enim nunc faucibus a pellentesque. Orci ac auctor augue mauris augue neque gravida. Sit amet volutpat consequat mauris. Turpis egestas pretium aenean pharetra magna.',
+    'Non sodales neque sodales ut etiam sit amet nisl purus. Odio euismod lacinia at quis risus. Amet porttitor eget dolor morbi non arcu risus quis varius. Urna condimentum mattis pellentesque id. Tortor aliquam nulla facilisi cras fermentum odio eu feugiat pretium. Ultricies mi eget mauris pharetra et ultrices neque ornare. Nibh nisl condimentum id venenatis a. Proin nibh nisl condimentum id venenatis a condimentum. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Eget egestas purus viverra accumsan in nisl nisi. Ac auctor augue mauris augue neque gravida in fermentum. Massa massa ultricies mi quis hendrerit. Purus ut faucibus pulvinar elementum. In mollis nunc sed id semper risus in hendrerit. Aliquam ultrices sagittis orci a scelerisque purus semper. Nisl pretium fusce id velit. Tortor posuere ac ut consequat semper viverra.',
+    'Aenean pharetra magna ac placerat vestibulum lectus. Suspendisse ultrices gravida dictum fusce. Sed velit dignissim sodales ut eu sem integer vitae. Feugiat in ante metus dictum. Ultrices neque ornare aenean euismod elementum nisi quis eleifend. Maecenas volutpat blandit aliquam etiam erat. Quam pellentesque nec nam aliquam sem et. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Nunc sed id semper risus in hendrerit gravida. Adipiscing commodo elit at imperdiet dui accumsan. Montes nascetur ridiculus mus mauris vitae ultricies leo integer malesuada. Tempus quam pellentesque nec nam aliquam sem et.',
+    'Turpis egestas sed tempus urna. Fringilla est ullamcorper eget nulla. Arcu non sodales neque sodales ut. Nullam non nisi est sit amet facilisis magna etiam. Mauris sit amet massa vitae tortor condimentum lacinia. Laoreet id donec ultrices tincidunt arcu. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan. Mi sit amet mauris commodo quis imperdiet massa tincidunt nunc. Morbi tristique senectus et netus et malesuada. Tempus urna et pharetra pharetra massa massa ultricies mi. Massa sed elementum tempus egestas sed sed risus. Adipiscing tristique risus nec feugiat in fermentum posuere. Dignissim convallis aenean et tortor at risus viverra adipiscing at. Purus in massa tempor nec.',
+    'In ornare quam viverra orci sagittis eu. Venenatis tellus in metus vulputate eu scelerisque felis imperdiet. Pulvinar neque laoreet suspendisse interdum consectetur. Vel pretium lectus quam id leo in vitae turpis massa. Orci dapibus ultrices in iaculis nunc sed augue lacus. Amet purus gravida quis blandit turpis cursus in hac. Magna fermentum iaculis eu non. Et leo duis ut diam. Dignissim enim sit amet venenatis urna cursus. Leo integer malesuada nunc vel risus commodo viverra. Risus ultricies tristique nulla aliquet. Eget sit amet tellus cras adipiscing enim eu. Accumsan tortor posuere ac ut. Nascetur ridiculus mus mauris vitae. Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Enim neque volutpat ac tincidunt vitae semper. Vel fringilla est ullamcorper eget nulla facilisi. Amet aliquam id diam maecenas ultricies mi. Eu facilisis sed odio morbi quis commodo odio aenean.'
+  ]
 
-    //const e = React.createElement;
+    function getParagraph(){
+      return par.map((par)=><p>{par}</p>);
+    }
+    class App extends React.Component{
+      render() {
+        return (
+          <div class="fullbody">
+            <c-corporate-header site-name="Demo page" site-url="/corporate-ui/">
+              <nav-item location="/corporate-ui/">UX Library</nav-item>
+            </c-corporate-header>
+            <c-main-content>
+              <c-main-navigation></c-main-navigation>
+              <section class="light">
+                <div class="container">
+                  <article>
+                  <h2>Demo page</h2>
+                    <p>This is a demo page using React together with Corporate UI.</p>
+                    {getParagraph()}
+                  </article>
+                </div>
+              </section>
+            </c-main-content>
+          </div>
+        );
+      }
+    }
 
-    // class mainNav extends React.Component{
-    //   constructor(props){
-    //     super();
-    //   }
-    //   render(){
-    //     return (
-    //       <primary-items>
-    //         <nav-item location="#/branding">products and services</nav-item>
-    //         <nav-item location="#/contact">experience scania</nav-item>
-    //       </primary-items>
-    //     );
-    //   }
-    // }
+    const navItems = [{
+      'name':'Link 1',
+    },{
+      'name': 'Link 2'
+    }]
 
-    const mainNav = (
-        <primary-items>
-            <nav-item location="#/branding">products and services</nav-item>
-            <nav-item location="#/contact">experience scania</nav-item>
-          </primary-items>
+    ReactDOM.render(
+      <App/>,
+      document.querySelector('body')
     );
-    const domMainNav = document.querySelector('c-main-navigation');
-    ReactDOM.render((mainNav),domMainNav);
+
 
   </script>
 
