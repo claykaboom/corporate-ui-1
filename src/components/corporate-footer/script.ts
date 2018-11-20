@@ -17,6 +17,10 @@ Polymer({
     navItems: {
       type: Boolean,
       value: false
+    },
+    template: {
+      type: String,
+      observer: 'addTemplate'
     }
   },
   created: function() {
@@ -27,5 +31,13 @@ Polymer({
   },
   attached: function() {
     this.style.display = 'block';
+  },
+  addTemplate: function() {
+    Polymer.dom(this).innerHTML = '';
+    var div = document.createElement('div')
+    div.innerHTML = this.template;
+    while (div.firstChild) {
+      Polymer.dom(this).appendChild(div.firstChild);
+    }
   }
 });

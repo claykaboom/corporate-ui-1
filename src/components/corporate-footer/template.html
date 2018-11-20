@@ -5,7 +5,7 @@
   <template is="dom-if" if="{{navItems}}" restamp="true">
     <div class="dropdown-container">
       <nav class="dropdown-menu footer-links">
-        <content></content>
+        <content select="nav-item"></content>
       </nav>
       <a href="#" class="btn btn-lg-center-block hidden-md hidden-lg" data-toggle="dropdown">
         SCANIA
@@ -13,6 +13,7 @@
       </a>
     </div>
   </template>
+  <content></content>
   <p class="footer-copy-text">
     <!-- <content select="copyright-text">
       &copy; Copyright Scania 2016 All rights reserved.
