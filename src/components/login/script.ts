@@ -1,13 +1,11 @@
 Polymer({
   is: name,
   properties: {
-    headline: {
-      type: String,
-      value: 'Log in to application'
+    loginHeadline: {
+      type: String
     },
-    description: {
-      type: String,
-      value: "Haven't registered yet?"
+    loginDescription: {
+      type: String
     },
     variation: 0,
     // Should be moved to a notification component
@@ -31,7 +29,6 @@ Polymer({
     for(var i=0; i<forms.length; i++) {
       forms[i].addEventListener('submit', this.action.bind(this));
     }
-
   },
   action: function(event) {
     event.preventDefault();

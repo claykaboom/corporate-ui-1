@@ -1,7 +1,8 @@
 <div class$="wrapper {{view}}">
   <section>
-    <h2 class="text-center">{{headline}}</h2>
-    <p class="text-center mt-4">{{description}}
+    <h2 class="text-center">{{loginHeadline}}</h2>
+    <p class="text-center mt-4">
+      {{loginDescription}}
       <button class="sign-up-link btn-link btn-info btn-text" on-click="setView" data-target="register">Create an account.</button>
     </p>
     <form action="login">
@@ -26,11 +27,9 @@
     <p class="help-block text-center mt-5">This portal uses cookies. By logging in, you are allowing cookies to be saved on your computer.</p>
   </section>
 
-<!-- Registration page Start-->
   <section>
     <h2 class="text-center">Sign up for Scania Developer Portal</h2>
     <p class="text-center mt-4">Once the account has been created and verified, you will be able to access all Scania's API.</p>
-    <!-- Registration form -->
     <form action="register">
       <div class="row">
         <div class="form-group col-sm-6">
@@ -52,17 +51,15 @@
       <div class="form-group">
         <form-field type="password" name="password" label="Password"></form-field>
       </div>
-      <!-- Should be triggered from submit on form later on -->
       <button type="submit" class="reg-form-submit btn btn-lg btn-block btn-success mt-5">Sign up</button>
     </form>
     <p class="text-center mt-5">By signing up you agree to
       <a href="#" class="regconf-form-link btn-link btn-info">terms and conditions.</label></a>
     </p>
   </section>
-<!-- Registration page End -->
+
   <section>
     <h2 class="text-center">Your user account has been created and needs to be activated.</h2>
-    <!--Header end -->
     <p class="text-center mt-4">To activate your user account, please follow the link that has been sent to the following address</p>
     <p class="text-center"><strong>Scania@scania.com</strong></p>
     <!--!!! Add script to collect used address-->
@@ -79,7 +76,6 @@
           <input type="email" class="form-control" name="email">
         </label>
       </div>
-      <!-- Should be triggered from submit on form later on -->
       <button type="submit" class="reg-form-submit btn btn-lg btn-block btn-warning mt-5">Recover password</button>
       <button type="button" class="reg-go-signin btn btn-lg btn-block btn-primary mt-5 ml-0" on-click="setView" data-target="login">Back to startpage</button>
     </form>
@@ -87,7 +83,6 @@
 
   <section>
     <h2 class="text-center">Password recovery</h2>
-    <!--Header end -->
     <p class="text-center mt-4">Your password have been reset and sent to your email.</p>
     <p class="text-center"><strong>Scania@scania.com</strong></p>
     <button type="button" class="reg-go-signin btn btn-lg btn-block btn-primary mt-5" on-click="setView" data-target="login">Back to startpage</button>

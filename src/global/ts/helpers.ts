@@ -8,6 +8,7 @@ export {
   eraseCookie,
   importScript,
   importLink,
+  getJson,
   generateMeta,
   urlInfo
 }
@@ -138,6 +139,22 @@ function importScript(src, callback=function(){}, target=document.head) {
   script.src = src;
   target.appendChild(script);
 }
+
+// Taken from: https://stackoverflow.com/a/35970894
+function getJson(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
 
 function urlInfo(url) {
   var ph = document.createElement("a");
