@@ -32,7 +32,30 @@
   }
 
   .modal {
-    color: #535353;
+
+    z-index: 8000;
+
+    .modal-fullscreen .modal-header {
+        padding: 10px 40px 0px 40px;
+    }    
+
+    .modal-fullscreen.scroll-y .modal-body {
+        max-height:~"calc(100vh - 57px - 92px)";
+        overflow-y: auto;
+        padding: 2px 40px 30px 40px;
+        margin: 0;
+    }
+
+    .modal-fullscreen .modal-footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+        text-align: left;
+        padding: 0;
+        background-color: #fff;
+        border-top: none;
+        padding: 20px 40px 30px 40px;
+    }
   }
 }
 

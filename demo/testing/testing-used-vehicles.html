@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <meta charset="utf-8">
+  <noscript><meta http-equiv="refresh" content="0;url=https://static.scania.com/vendors/components/pure-js/nonJS-browsers/1.0.0/nonJS-browsers.html"></noscript>
+
+  <title>Corporate UI - Developers</title>
+
+  <script src="https://static.scania.com/vendors/frameworks/jquery/1.11.3/jquery-1.11.3.min.js"></script>   
+  <script src="/js/corporate-ui.js"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110069805-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-110069805-1');
+  </script>
+  
+  <script src="https://static.scania.com/vendors/components/pure-js/browser-reject/1.0.0/js/browser-reject.js"></script>
+  <link rel="stylesheet" href="/css/ux-library.css">
+  <link rel="stylesheet" type="text/css" href="https://static.scania.com/development/users/used-vehicles/css/used-vehicles.css">
+
+  <script src="https://static.scania.com/vendors/components/pure-js/noUiSlider/12.1.0/src/nouislider.js"></script>
+  
+</head>
+
+<body class="scania app used-vehicles">
+  <c-corporate-header site-name="Used Vehicles" short-name="Used Vehicles" site-url="/">
+    <nav-item location="#">Optional</nav-item>
+    <nav-item location="#">User Menu</nav-item>
+  </c-corporate-header>
+
+  <c-main-content class="light">
+    <c-main-navigation>
+      <primary-items>
+        <nav-item><a routerLink="/">Tractors</a></nav-item>
+        <nav-item><a routerLink="/">Ridgids</a></nav-item>
+        <nav-item><a routerLink="/">Buses & Coaches</a></nav-item>
+        <nav-item><a routerLink="/">Trailers</a></nav-item>
+        <nav-item><a routerLink="/">About</a></nav-item>                    
+      </primary-items>
+      <secondary-items>
+        <form class="search form-inline" role="form">
+          <div class="form-group">
+            <input type="search" class="form-control main-nav-search" placeholder="Search">
+          </div>
+          <div class="form-group">
+            <i class="scania-icon-search pull-right"></i>
+          </div>
+        </form>
+      </secondary-items>
+    </c-main-navigation>
+
+    <div class="sticky-filter container bg-white hidden-md hidden-lg">
+      <a class="btn-info btn-link" data-toggle="modal" data-target=".bs-example-modal-fullscreen">
+        <i class="scania-icon filter-icon xs"></i>
+        Filters
+      </a>
+    </div>
+
+    <section>
+      <div class="container">
+        <form>
+          <div class="row">
+            <div class="filters col-md-2">
+              <div class="form-group">
+                  <h5>Application</h5>                
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications">
+                      <span></span>
+                    3-way tipper
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications">
+                      <span></span>
+                      Box body
+                    </label>
+                  </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications">
+                      <span></span>
+                      Concrete mixer
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications">
+                      <span></span>
+                      Grain tipper
+                    </label>
+                  </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications">
+                      <span></span>
+                      Hook loader
+                    </label>
+                  </div>
+                </div>  
+                <div class="form-group">                  
+                  <h5>Axle configuration</h5>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="axle-config">
+                      <span></span>
+                      4x2 
+                    </label>
+                  </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="axle-config">
+                      <span></span>
+                      6x2
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="axle-config">
+                      <span></span>
+                      6x2/4 
+                    </label>
+                  </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="axle-config">
+                      <span></span>
+                      6x4
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="axle-config">
+                      <span></span>
+                      8x4*4
+                    </label>
+                  </div>    
+                </div>
+              <div class="form-group">
+                  <h5>Emission</h5>               
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications-mobile">
+                      <span></span>
+                    Euro 5
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications-mobile">
+                      <span></span>
+                      Euro 6
+                    </label>
+                  </div>
+                <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="applications-mobile">
+                      <span></span>
+                      Euro 6 DPF 
+                    </label>
+                  </div>
+                </div>                
+            </div>          
+            <div class="col-md-10">                   
+              <div class="card-deck">
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/17301-016.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Volvo</h4>      
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>    
+                    <ul class="list-unstyled">
+                      <li>ID: 5374200 (SE)</li>
+                      <li>Year: 2014</li>
+                      <li>Mileage: 533000 Kms</li>
+                      <li>Emission level: Euro 6</li>
+                    </ul>
+                  </div>
+                    <div class="card-footer">
+                    <span class="price text-success" value="574000">574 000<small>SEK</small></span>
+                      <form>
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>
+                        </div>
+                    </form>                           
+                    </div>                  
+                </div>
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/18223-013.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Scania</h4>     
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>
+                    <ul class="list-unstyled">
+                      <li>ID: 5374200 (SE)</li>
+                      <li>Mileage: 533000 Kms</li>
+                      <li>Emission level: Euro 6</li>
+                    </ul>
+                  </div>
+                    <div class="card-footer">
+                    <span class="price text-success" value="635000">635 000<small>SEK</small></span>  
+                      <form> 
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>  
+                        </div>
+                    </form>                       
+                    </div>                  
+                </div>
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/18187-002.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Scania</h4>     
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>
+                    <ul class="list-unstyled">
+                      <li>ID: 5374200 (SE)</li>
+                      <li>Mileage: 533000 Kms</li>
+                      <li>Emission level: Euro 6</li>
+                    </ul>
+                  </div>
+                    <div class="card-footer">
+                    <span class="price text-success" value="724000">724 000<small>SEK</small></span>  
+                      <form>
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>
+                        </div>
+                      </form>                       
+                    </div>                  
+                </div>
+              </div>
+              <div class="card-deck">
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/18239-016.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Scania</h4>     
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>
+                    <ul class="list-unstyled">
+                      <li>ID: 5374200 (SE)</li>
+                    </ul> 
+                  </div>
+                    <div class="card-footer">
+                    <span class="price text-success" value="641000">641 000<small>SEK</small></span>  
+                      <form>
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>
+                        </div>
+                      </form>                       
+                    </div>                  
+                </div>                
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/18295-001.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Scania</h4>     
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>
+                    <ul class="list-unstyled">
+                      <li>ID: 5374200 (SE)</li>
+                      <li>Mileage: 533000 Kms</li>
+                      <li>Emission level: Euro 6</li>
+                    </ul>
+                  </div>
+                    <div class="card-footer"> 
+                    <span class="price text-success" value="891000">891 000<small>SEK</small></span>  
+                      <form>
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>
+                        </div>
+                      </form>                       
+                    </div>                  
+                </div>
+                <div class="card">
+                  <img class="card-img-top" src="https://scania.github.io/corporate-ui-docs/developer/img/18155-012.jpg" alt="">
+                  <div class="card-body">
+                    <h4>Scania</h4>
+                    <h3><a href="">R 490 LA6x2/4MNB</a></h3>
+                    <ul class="list-unstyled">
+                      <li>Year: 2014</li>
+                      <li>Mileage: 533000 Kms</li>
+                    </ul>
+                  </div>
+                    <div class="card-footer">
+                    <span class="price text-success" value="789000">789 000<small>SEK</small></span>  
+                      <form>
+                        <div class="form-group">                      
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to Compare
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="my-choices">
+                              <span></span>
+                              Add to my list
+                            </label>
+                          </div>
+                        </div>
+                      </form> 
+                    </div>                  
+                </div>
+              </div>                        
+            </div>  
+        </div>                
+      </section>
+    </c-main-content>
+
+    <c-corporate-footer>
+      <c-social-media>
+        <nav-item icon="facebook" location="#" onclick="window.open('https://www.facebook.com/scaniagroup/')"></nav-item>
+        <nav-item icon="twitter" location="#"></nav-item>
+        <nav-item icon="youtube" location="#"></nav-item>
+        <nav-item icon="linkedin" location="#"></nav-item>         
+      </c-social-media>
+      <nav-item location="#">Legal notice</nav-item>
+      <nav-item location="#">Privacy statement</nav-item>
+      <nav-item location="#">Cookies</nav-item>
+      <nav-item location="#">Contact us</nav-item>  
+    </c-corporate-footer>
+
+
+      <div class="modal fade bs-example-modal-fullscreen" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myLargeModalLabel">FILTERS <small><a href="">reset all</a></small></h4>
+            </div>
+            <div class="modal-body">              
+                <div class="collapse-group">
+                  <div class="filterset">
+                    <div class="filterset-heading" role="tab" id="headingOne">
+                      <h5 class="filterset-title">
+                        <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="trigger collapsed">
+                          Price <i class="fal fa-lg fa-angle-up"></i>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseOne" class="filterset-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                      <div class="filterset-body">
+                        <div class="nouislider-container">  
+                          <div id="nonlinear"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                  <div class="filterset">
+                    <div class="filterset-heading" role="tab" id="headingTwo">
+                      <h5 class="filterset-title">
+                        <a role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" class="trigger collapsed">
+                          Axle configuration <i class="fal fa-lg fa-angle-up"></i>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="filterset-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="true" style="">
+                      <div class="filterset-body">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="axle-config">
+                                  <span></span>
+                                  4x2 
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="axle-config">
+                                  <span></span>
+                                  6x2
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="axle-config">
+                                  <span></span>
+                                  6x2/4 
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="axle-config">
+                                  <span></span>
+                                  6x4
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="axle-config">
+                                  <span></span>
+                                  8x4*4
+                                </label>
+                              </div>    
+                            </div>
+                          </div>
+                        </div>    
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filterset">
+                    <div class="filterset-heading" role="tab" id="headingThree">
+                      <h5 class="filterset-title">
+                        <a role="button" data-toggle="collapse" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" class="trigger collapsed">
+                          Emission <i class="fal fa-lg fa-angle-up"></i>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseThree" class="filterset-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="">
+                      <div class="filterset-body">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">              
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications-mobile">
+                                  <span></span>
+                                  Euro 5
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications-mobile">
+                                  <span></span>
+                                  Euro 6
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications-mobile">
+                                  <span></span>
+                                  Euro 6 DPF 
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>    
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filterset">
+                    <div class="filterset-heading" role="tab" id="headingFour">
+                      <h5 class="filterset-title">
+                        <a role="button" data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" class="trigger collapsed">
+                          Application <i class="fal fa-lg fa-angle-up"></i>
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseFour" class="filterset-collapse collapse" role="tabpanel" aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
+                      <div class="filterset-body">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">            
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications">
+                                  <span></span>
+                                  3-way tipper
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications">
+                                  <span></span>
+                                  Box body
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications">
+                                  <span></span>
+                                  Concrete mixer
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications">
+                                  <span></span>
+                                  Grain tipper
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="applications">
+                                  <span></span>
+                                  Hook loader
+                                </label>
+                              </div>
+                            </div>  
+                          </div>  
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+                </div>
+            </div>
+          </div>                
+            <div class="modal-footer text-center">
+              <button type="button" class="btn btn-lg btn-block btn-success" data-dismiss="modal" aria-hidden="true">Show 34 Items</button>
+            </div>                      
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
+<script>
+
+var nonLinearSlider = document.getElementById('nonlinear');
+
+noUiSlider.create(nonLinearSlider, {
+    connect: true,
+    behaviour: 'tap',
+    tooltips: true,
+    start: [420000, 920000],
+    step:1,
+    decimals: 0,
+    range: {
+        // Starting at 500, step the value by 500,
+        // until 4000 is reached. From there, step by 1000.
+        'min': [0],
+        'max': [920000]
+    },  
+});
+
+// Read the slider value and the left offset
+var nodes = [
+    document.getElementById('lower-value'), // 0
+    document.getElementById('upper-value')  // 1
+];
+
+// Display the slider value and how far the handle moved
+// from the left edge of the slider.
+nonLinearSlider.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
+    nodes[handle].innerHTML = values[handle] + ', ' + positions[handle].toFixed(2) + '%';
+});
+
+</script>
+
+      <c-cookie-message name="cookieMessage" text="hideMessage"></c-cookie-message>
+
+
+<style>
+
+</style>
+</body>
+</html>
