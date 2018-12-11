@@ -1,5 +1,6 @@
 
 import * as helpers from './helpers';
+import { storeInit } from './store';
 
 const wv = require('webpackVariables');
 
@@ -15,6 +16,7 @@ function init() {
   addMetaAndHeaderSpecs();
   setGlobals();
   appendExternals();
+  storeInit();
   appendGa();
 }
 
@@ -133,6 +135,8 @@ function setGlobals() {
       port = helpers.urlInfo(scriptUrl).port ? ':' + helpers.urlInfo(scriptUrl).port : '',
       localhost = helpers.urlInfo(scriptUrl).hostname === 'localhost' || helpers.urlInfo(scriptUrl).hostname.match(/rd[0-9]+/g) !== null;
 
+  window['cui_path'] = helpers.urlInfo(scriptUrl).href.substring(0, helpers.urlInfo(scriptUrl).href.lastIndexOf('/')+1);
+
   window['corporate_ui_params'] = helpers.urlInfo(scriptUrl).search.substring(1);
   window['static_root'] = (localhost ? 'http://' : 'https://') + helpers.urlInfo(scriptUrl).hostname + port;
   window['version_root'] = (window['static_root'] + helpers.urlInfo(scriptUrl).pathname).replace('/js/corporate-ui.js', '');
@@ -163,15 +167,19 @@ function setGlobals() {
     });
   }
 
+  /*store.subscribe(() =>
+    console.log(store.getState())
+  );*/
+
   /*window['Polymer'] = {
     dom: 'shadow'
   };*/
 }
 
-function polymerInject() {
+function polymerInject(cb=function(){}) {
   if (!(window['Polymer'] && window['Polymer'].StyleUtil)) {
     clearTimeout(window['polymerTimer']);
-    window['polymerTimer'] = setTimeout(polymerInject, 10);
+    window['polymerTimer'] = setTimeout(polymerInject.bind(cb), 10);
     return;
   }
 
@@ -187,7 +195,7 @@ function polymerInject() {
 
         if (this.properties.variation !== 0) {
           /* Automatically wrapping component variation */
-          var variation = (this.attributes.variation ? this.attributes.variation.value : undefined) || (this.properties.variation ? this.properties.variation.value : 1);
+          var variation = (this.attributes.variation ? this.attributes.variation.value : undefined) || (this.properties.variation ? this.properties.variation.value || this.properties.variation : 1);
           var variation_container = document.createElement(this.localName + '-variation-' + variation);
 
           // Why does this happen sometimes?
@@ -199,7 +207,7 @@ function polymerInject() {
         }
 
         /* Automatically wrapping component inside a container */
-        var fullbleed = (this.attributes.fullbleed ? this.attributes.fullbleed.specified : undefined) || (this.properties.fullbleed ? this.properties.fullbleed.value : true);
+        var fullbleed = (this.attributes.fullbleed ? this.attributes.fullbleed.specified : undefined) || (this.properties.fullbleed ? this.properties.fullbleed.value || this.properties.fullbleed : true);
 
         if(fullbleed !== true) {
           var container = document.createElement('div'),
@@ -216,6 +224,8 @@ function polymerInject() {
     /* Execute the origional function and apply current this to it */
     _orgReady.call(this);
   }
+
+  cb();
 
   /* Makes Polymer apply component specific style in the end of head element */
   /*window['Polymer'].StyleUtil.orgApplyCss = window['Polymer'].StyleUtil.applyCss;
@@ -234,8 +244,6 @@ function polymerInject() {
 }
 
 function baseComponents(references) {
-  polymerInject();
-
   // Adds support for Promise if non exist
   if (typeof(window['Promise']) === 'undefined') {
     return helpers.importScript(window['static_root'] + '/vendors/components/pure-js/es6-promise/4.1.0/dist/es6-promise.js', function() {
@@ -275,11 +283,21 @@ function baseComponents(references) {
 }
 
 function appendExternals() {
-  window['preLoadedComponents'] = ['corporate-header', 'corporate-footer', 'main-navigation'];
+  window['preLoadedComponents'] = ['corporate-header', 'corporate-footer', 'main-navigation', 'cookie-message', 'fullscreen', 'main-hero' ];
 
   // Adds support for webcomponents if non exist
   if (!('import' in document.createElement('link'))) {
     helpers.importScript(window['static_root'] + '/vendors/frameworks/webcomponents.js/0.7.24/webcomponents-lite.js', null, window['corporate_elm']);
+  }
+
+  // Adds Polymer and then extend it with some extra corporate specific handling
+  if (window['params'].polymer !== 'false') {
+    helpers.importLink(window['static_root'] + '/vendors/frameworks/polymer/1.4.0/polymer.html', 'import', function() {
+      polymerInject(function() {
+        baseComponents(window['params'].preload === 'false' ? [] : undefined);
+      })
+    },
+    window['corporate_elm']);
   }
 
   if (window['params'].css !== 'custom') {
@@ -295,28 +313,37 @@ function appendExternals() {
     helpers.importLink(window['static_root'] + '/vendors/frameworks/bootstrap/3.2.0/dist/css/bootstrap-org.css', 'stylesheet', null, window['corporate_elm']);
     helpers.importLink(window['version_root'] + '/css/corporate-ui.css', 'stylesheet', null, window['corporate_elm']);
   }
-
-  baseComponents(window['params'].preload === 'false' ? [] : undefined);
 }
 
 function bsHandler() {
   document.addEventListener('click', function(event:any) {
+    bsAutoHandler(event, function() {
+      setTimeout(function() {
+        event.target.click();
+      }, 100)
+    });
+  });
+  document.addEventListener('mouseover', bsAutoHandler);
+
+  function bsAutoHandler(event, cb=function(){}) {
     var dataToggle = event.target.getAttribute('data-toggle') || '',
         method = dataToggle.charAt(0).toUpperCase() + dataToggle.slice(1),
-        elm = event.target.parentNode;
-    if(method && window[method]) {
+        options = event.target.dataset;
+
+    if(method && window[method] && !event.target[method]) {
       event.preventDefault();
+
       if (dataToggle === 'tab') {
-        elm = elm.parentNode;
+        [].slice.call(event.target.parentNode.parentNode.children).map(function(item) {
+          new window[method](item.children[0], options);
+        });
+      } else {
+        new window[method](event.target, options);
       }
-      [].slice.call(elm.querySelectorAll('[data-toggle]')).map(function(_elm) {
-        if (!_elm[method]) {
-          new window[method](_elm);
-        }
-      });
-      event.target.click();
+
+      cb();
     }
-  })
+  }
 }
 
 function sysMessages() {

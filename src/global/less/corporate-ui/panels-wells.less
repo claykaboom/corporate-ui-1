@@ -11,7 +11,6 @@
     font-family: 'Scania Sans';
     font-weight: bold;
     border-radius: 0;
-    text-transform: uppercase;
     margin: -1px;
     border-bottom: none;
     border-top: 1px solid #ddd;
@@ -50,12 +49,14 @@
 
     + .table{
     border: none;
-    } 
+    }
   }
 
   .panel-title {
+    font-family: 'Scania Sans Headline';
     color: inherit;
     font-size: 1.8rem;
+    text-transform: uppercase;
 
     small {
       display: block;
@@ -70,14 +71,10 @@
   .panel-body {
     padding: 30px 40px;
 
-    > p {
-      font-size: 16px;
-    }
-
     + .table,
     + .table-responsive {
       border: none;
-    }       
+    }
   }
 
   .panel-footer {
@@ -85,7 +82,7 @@
     border-top:none;
     font-weight: bold;
     border-radius: 0;
-    
+
       > .pagination {
       margin: 0;
     }
@@ -106,7 +103,7 @@
       font-size: 2rem;
       letter-spacing: 0.05rem;
       color: @interaction-primary;
-    } 
+    }
   }
 }
 
@@ -114,7 +111,7 @@
 .panel-default {
 
   > .panel-heading {
-    background-color: #f5f5f5;
+    background-color: #e8f0f3;
     color: @interaction-primary;
   }
 
@@ -159,6 +156,15 @@
    font-family: 'Scania Sans Semi Condensed';
    text-transform: none;
 }
+
+
+@media (max-width: 991px) {
+  .panel-body {
+    padding: 15px;
+  }
+}
+
+
 
 //wells
 .well {

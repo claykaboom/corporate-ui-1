@@ -24,17 +24,18 @@ Polymer({
       type: String,
       value: ''
     },
-    children: {
+    items: {
       type: Array,
       observer: 'toggleModeToggler'
     },
     props: {
-      type: Object
+      type: Object,
+      observer: 'setProps'
     },
     attrs: {
       type: Object
     },
-    haveChildren: {
+    haveItems: {
       type: Boolean
     },
     icon: {
@@ -79,7 +80,7 @@ Polymer({
         a.setAttribute(attr, this.attributes[key].value);
       }
 
-      if(this.children && this.dropdown) {
+      if(this.items && this.dropdown) {
         a.classList.add('dropdown-toggle');
         a.setAttribute('data-toggle', 'dropdown');
       }
@@ -93,17 +94,11 @@ Polymer({
     }
 
     if(this.querySelector('sub-navigation')) {
-      this.haveChildren = true;
+      this.haveItems = true;
     }
 
     if(this.active && this.active.toString() == 'true') {
       this.setActive(true);
-    }
-
-    if(this.props) {
-      Object.keys(this.props).map(function(prop) {
-        this[prop] = this.props[prop];
-      }, this);
     }
 
     if(this.attrs) {
@@ -122,25 +117,27 @@ Polymer({
 
     this.toggleClass('expanded', this.hasClass(this, 'active'));
 
-    this.listen(this, 'tap', 'onTap');
-  },
-  onTap: function(event) {
-    event.stopPropagation();
-
-    if (this.dropdown) {
-      if (!this.classList.contains('more') && !this.active) {
-        this.reSetActive();
+    this.addEventListener('click', function() {
+      if (this.dropdown) {
+        if (!this.classList.contains('more') && !this.active) {
+          this.reSetActive();
+        }
+        return;
       }
-      return;
-    }
 
-    this.active = true;
+      this.active = true;
 
-    if(window.innerWidth < 992) {
-      var _event = document.createEvent('Event');
-      _event.initEvent('navigation-close', true, true);
-      this.dispatchEvent(_event);
-    }
+      if(window.innerWidth < 992) {
+        var _event = document.createEvent('Event');
+        _event.initEvent('navigation-close', true, true);
+        this.dispatchEvent(_event);
+      }
+    });
+  },
+  setProps: function(props) {
+    Object.keys(props).map(function(prop) {
+      this[prop] = props[prop];
+    }, this);
   },
   setActive: function(newState) {
     if (newState && newState.toString() == 'true') {
@@ -154,9 +151,9 @@ Polymer({
     }
   },
   reSetActive: function() {
-    this.children.map(function(item, key) {
+    this.items.map(function(item, key) {
       if (item.active) {
-        this.set('children.' + key + '.active', false);
+        this.set('items.' + key + '.active', false);
       }
     }, this);
   },
@@ -190,6 +187,6 @@ Polymer({
     return active ? 'active' : '';
   },
   toggleModeToggler: function(items) {
-    this.haveChildren = !!(items || []).length;
+    this.haveItems = !!(items || []).length;
   }
 });

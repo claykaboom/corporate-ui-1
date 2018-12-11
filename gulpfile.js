@@ -4,7 +4,7 @@ var fs = require('fs'),
     gulp = require('gulp'),
     del = require('del'),
     child = require('child_process'),
-    less = require('gulp-less'),
+    gulpLess = require('gulp-less'),
     jade = require('gulp-jade'),
     typescript = require('gulp-typescript'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -13,43 +13,50 @@ var fs = require('fs'),
     merge = require('merge-stream'),
     webpack = require('webpack-stream'),
     dirTree = require('directory-tree'),
-    server = require('./server'),
-    package = require('./package.json')
+    express = require('express'),
+    package = require('./package.json'),
+
+    tree = dirTree('src/components', { normalizePath: true, extensions: /\.ts/ }),
+    tree2 = dirTree('demo/examples', { normalizePath: true });
 
 /* Available tasks */
-gulp.task('clean', _clean)
-gulp.task('copy', _copy)
-gulp.task('less', _less)
-gulp.task('ts', _ts)
-gulp.task('lessComponent', _lessComponent)
-gulp.task('tsComponent', _tsComponent)
-gulp.task('jadeComponent', _jadeComponent)
-gulp.task('fullComponent', _fullComponent)
+gulp.task(clean)
+gulp.task(copy)
+gulp.task(less)
+gulp.task(ts)
+gulp.task(watch)
+gulp.task(test)
+gulp.task(server)
+gulp.task(lessComponent)
+gulp.task(tsComponent)
+gulp.task(jadeComponent)
+gulp.task(fullComponent)
+gulp.task(cleanComponent)
 
-gulp.task('test', test)
-
-gulp.task('components', gulp.series(['lessComponent', 'tsComponent', 'jadeComponent', 'fullComponent'], cleanComponent))
-gulp.task('build', gulp.series(['clean', 'copy', 'less', 'ts', 'components', 'test'], exit))
-gulp.task('default', gulp.series(['build'], server))
-
-/* File watches */
-gulp.watch('src/global/ts/*', gulp.series(['ts']))
-gulp.watch('src/global/less/**/*', gulp.series(['less']))
-gulp.watch('src/components/**/*', gulp.series(['components']))
-gulp.watch('src/global/{images,less}/*', gulp.series(['copy']))
+gulp.task('components', gulp.series(['lessComponent', 'tsComponent', 'jadeComponent', 'fullComponent', 'cleanComponent']))
+gulp.task('build', gulp.series(['clean', 'copy', 'less', 'ts', 'components', 'test']))
+gulp.task('default', gulp.series(['build', 'watch', 'server']))
 
 /* Methods */
-function _clean() {
+function watch(done) {
+  gulp.watch('src/global/ts/*', gulp.series(['ts']))
+  gulp.watch('src/global/less/**/*', gulp.series(['less']))
+  gulp.watch('src/components/**/*', gulp.series(['components']))
+  gulp.watch('src/global/{images,less}/*', gulp.series(['copy']))
+
+  done()
+}
+function clean() {
   return del(['tmp', 'dist'])
 }
-function _copy() {
+function copy() {
   return gulp.src(['src/global/**'])
     .pipe(gulp.dest('dist'))
 }
-function _less() {
+function less() {
   return gulp.src(['src/global/less/*.less', 'src/global/less/corporate-ui/{core,fonts,icons,brands}.less'])
     .pipe(sourcemaps.init())
-    .pipe(less({
+    .pipe(gulpLess({
       globalVars: {
         lib_path: 'node_modules'
       }
@@ -57,10 +64,8 @@ function _less() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/css'))
 }
-function _ts() {
-  var tree = dirTree('src/components'),
-      tree2 = dirTree('demo/examples', { normalizePath: true }),
-      _components = [];
+function ts() {
+  var _components = [];
 
   tree.children.map(function(component) {
     var variations = (component.children || []).find(function(sub) { return sub.name === 'variations' })
@@ -92,17 +97,18 @@ function _ts() {
     output: {
       filename: '[name].js'
     },
+    mode: 'production',
     resolve: {
-      extensions: ['.ts']
+      extensions: ['.ts', '.tsx', '.js', '.json']
     },
     module: {
-      loaders: [
+      rules: [
         { test: /\.ts$/, loader: 'ts-loader' }
       ]
     },
     externals: {
       // export components array to the view
-      'webpackVariables': `{
+      webpackVariables: `{
         'components': '${JSON.stringify(_components)}',
         'version': '${package.version}'
       }`
@@ -119,17 +125,18 @@ function _ts() {
     output: {
       filename: '[name].js'
     },
+    mode: 'production',
     resolve: {
       extensions: ['.ts']
     },
     module: {
-      loaders: [
+      rules: [
         { test: /\.ts$/, loader: 'ts-loader' }
       ]
     },
     externals: {
-      // export components array to the view
-      'webpackVariables': `{
+      // export examples array to the view
+      webpackVariables: `{
         'examples': '${JSON.stringify(tree2.children)}'
       }`
     }
@@ -138,33 +145,74 @@ function _ts() {
 
   return merge(stream1, stream2)
 }
-function cleanComponent() {
-  return del('tmp')
-}
-function _lessComponent() {
+function lessComponent() {
   return gulp.src('src/components/**/*.less')
-    .pipe(less())
+    .pipe(gulpLess())
     .pipe(gulp.dest('tmp/components'))
 }
-function _tsComponent() {
-  var tsProject = typescript.createProject('tsconfig.json'),
-      tsResult = tsProject.src()
-        .pipe(tsProject())
+function tsComponent() {
+  var entries = {}
 
-  return tsResult.js
-    .pipe(gulp.dest('tmp'))
+  // We go throught all components manually to make it possible for webpack to 
+  // generate separate script files for our webcomponents
+  tree.children.map(function(component) {
+    if (component.children.find(component => component.name === 'script.ts')) {
+      Object.assign(entries, renderEntries(component, entries))
+    }
+  })
+
+  function renderEntries(item, obj) {
+    entries[item.path.replace('src/', '') + '/script'] = './' + item.path + '/script'
+
+    item.children.find(function(file) {
+      if (file.type === 'directory') {
+        if (file.name === 'variations') {
+          file.children.map(function(variation) {
+            entries[variation.path.replace('src/', '') + '/script'] = './' + variation.path + '/script'
+          })
+        } else {
+          Object.assign(obj, renderEntries(file, obj))
+        }
+      }
+    })
+    return obj
+  }
+
+  return webpack({
+    entry: entries,
+    output: {
+      path: __dirname + '/tmp/',
+      filename: '[name].js'
+    },
+    mode: 'production',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json']
+    },
+    module: {
+      rules: [
+        { test: /\.ts$/, loader: 'ts-loader', sideEffects: false }
+      ]
+    },
+    externals: {
+      // export components array to the view
+      webpackVariables: `{
+        'examples': '${JSON.stringify(tree2.children)}'
+      }`
+    }
+  })
+    .pipe(gulp.dest('tmp/'));
 }
-function _jadeComponent() {
+function jadeComponent() {
   return gulp.src('src/components/**/*.{jade,html,md}')
     .pipe(gulp.dest('tmp/components'))
 }
-function _fullComponent() {
+function fullComponent() {
   return gulp.src('tmp/**/**/index.jade')
     .pipe(data(function(file) {
       var index = path.dirname(file.path).lastIndexOf(path.sep) + 1,
           name = path.dirname(file.path).substring(index),
           isVariation = !isNaN( parseFloat(name) ),
-          isSubComponent = file.path.split('tmp')[1].split(path.sep).length > 4;
+          isSubComponent = file.path.split('tmp')[1].split(path.sep).length > 4,
           prefix = 'c-';
 
       if (isVariation) {
@@ -193,14 +241,41 @@ function _fullComponent() {
     }))
     .pipe(gulp.dest('dist'))
 }
+function cleanComponent() {
+  return del('tmp')
+}
 function test(done) {
   /* We will have some tests here later on */
   done()
 }
-function exit(done) {
-  done()
-  // Running exit to end the gulp process if current task is build
-  if (process.argv.indexOf('build') > -1) {
-    process.exit(0)
-  }
+function server() {
+  var app = express();
+
+  app.set('port', process.env.PORT || 1337)
+  app.set('host', process.env.COMPUTERNAME || '0.0.0.0')
+
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+  })
+
+  app.use(express.static(__dirname + '/demo'))
+  app.use('/', express.static(__dirname + '/dist'))
+
+  app.use('/vendors/:type/:dependency/:version/*', function(req, res) {
+    var url = req.params[0].replace('bootstrap-org', 'bootstrap')
+    dependency = req.params.dependency
+    if (!req.params.version.match(/\d.\d.\d/g)) {
+      url = url.substring(url.indexOf("/") + 1)
+      dependency = req.params.version
+    }
+    res.sendFile(__dirname + '/node_modules/' + dependency + '/' + url)
+  })
+
+  app.use('/resources/logotype/scania', express.static(__dirname + '/dist/images') )
+
+  app.listen(app.get('port'), function() {
+    console.log('UX-library is now running at http://%s:%d.', app.get('host'), app.get('port'))
+  })
 }

@@ -375,20 +375,28 @@
 
     &.active > a {
 
-      &,
-      &:hover,
-      &:focus {
-        background-color: @interaction-info;
-        color: #fff;
-      }
-
-      > .badge {
-        color: @interaction-info;
-      }
+    &,
+    &:hover,
+    &:focus {
+      background-color: @interaction-info;
+      color: #fff;
     }
 
-    > a {
+    > .badge {
       color: @interaction-info;
+    }
+  }
+
+  > a {
+    color: @interaction-info;
+  }
+
+  ul.dropdown-menu li a  {
+    color: #909090;
+
+      &:hover {
+         color: #909090;
+      }
     }
   }
 
@@ -400,7 +408,7 @@
       > .badge {
         margin-left: 10px;
         vertical-align: top;
-        line-height: 1.2;
+        line-height: 1.1;
         background-color: @interaction-info;
       }
     }
@@ -623,6 +631,7 @@
           width: 40px;
           height: 37px;
           margin: -5px;
+          margin-left: 12px;          
 
           &:before {
             position: static;

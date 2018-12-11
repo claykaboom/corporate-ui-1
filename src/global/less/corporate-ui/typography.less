@@ -80,6 +80,7 @@ dd,
 strong,
 button {
   font-family: "Scania Sans Semi Condensed";
+  letter-spacing: normal;
   color: @interaction-primary;
   font-weight: bold;
 }
@@ -189,10 +190,15 @@ article p.lead,
 p.lead {
   font-family: 'Scania Sans';
   font-size: 1.26em;
-  color: @interaction-primary;
   font-weight: normal;
   line-height: 1.4;
 }
+
+.app article p.lead,
+.app p.lead {
+  font-size: 1.8rem;
+}
+
 
 
 address {
@@ -217,11 +223,13 @@ address {
   body& {
     font-size: @font-size-app;
     font-family: 'Scania Sans Semi Condensed', 'Scania Sans Condensed', 'Scania Sans', Arial, Helvetica, sans-serif;
+    letter-spacing: normal;
   }
 
   h1 {
     font-size: @h1-font-size-app;
     font-family: "Scania Sans Semi Condensed";
+    letter-spacing: normal;
     font-weight: bold;
     line-height: 32px;
   }
@@ -249,6 +257,7 @@ address {
   h6,
   legend {
     font-family: "Scania Sans Semi Condensed";
+    letter-spacing: normal;
     font-weight: bold;
     text-align: left;
 
@@ -263,8 +272,9 @@ address {
 
   label,
   caption {
-    font-family: "Scania Sans Condensed";
+    font-family: 'Scania Sans Semi Condensed';
     font-weight: bold;
+    font-size: 1.2rem;
     color: @text-pale-strong-color;
 
     dd,
